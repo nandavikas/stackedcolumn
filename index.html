@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: " Since the 1980s, household stock market exposure has shifted from stocks to funds",
+		fontFamily: "arial black",
+		fontColor: "#695A42"
+	},
+	axisX: {
+		interval: 10,
+		intervalType: "year"
+	},
+	axisY:{
+        suffix: "%",
+		gridColor: "#B6B1A8",
+		tickColor: "#B6B1A8",
+        interval: 20
+	},
+     axisY2: {
+		title: "Median List Price",
+		prefix: "$",
+       interval: 5000
+	},
+	data: [{
+		type: "stackedColumn",
+		showInLegend: true,
+		color: "#696661",
+		name: "U.S. stocks",
+		dataPoints: [
+			{ y: 97, x: new Date(1950,0) },
+			{ y: 93, x: new Date(1960,0) },
+			{ y: 89, x: new Date(1970,0) },
+			{ y: 92.5, x: new Date(1980,0) },
+			{ y: 82, x: new Date(1990,0) },
+			{ y: 72, x: new Date(2000,0) },
+			{ y: 60, x: new Date(2010,0) },
+      { y: 53, x: new Date(2018,0) }
+		]
+		},
+		{        
+			type: "stackedColumn",
+			showInLegend: true,
+			name: "U.S. stock funds",
+			color: "#EDCA93",
+			dataPoints: [
+				{ y: 3, x: new Date(1950,0) },
+				{ y: 7, x: new Date(1960,0) },
+				{ y: 11, x: new Date(1970,0) },
+				{ y: 7.5, x: new Date(1980,0) },
+				{ y: 18, x: new Date(1990,0) },
+				{ y: 28, x: new Date(2000,0) },
+				{ y: 40, x: new Date(2010,0) },
+        { y: 47, x: new Date(2018,0) }
+			]
+		},
+		{        
+			type: "line",
+			showInLegend: true,
+            axisYType: "secondary",
+			name: "Household assets in U.S. stocks",
+			color: "#B6B1A8",
+			dataPoints: [
+				{ y: 0, x: new Date(1950,0) },
+				{ y: 500, x: new Date(1960,0) },
+				{ y: 850, x: new Date(1970,0) },
+				{ y: 850, x: new Date(1980,0) },
+				{ y: 2500, x: new Date(1990,0) },
+				{ y: 12000, x: new Date(2000,0) },
+				{ y: 10500, x: new Date(2010,0) },
+        { y: 24000, x: new Date(2018,0) }
+			]
+	}]
+});
+chart.render();
+
+function toolTipContent(e) {
+	var str = "";
+	var total = 0;
+	var str2, str3;
+	for (var i = 0; i < e.entries.length; i++){
+		var  str1 = "<span style= \"color:"+e.entries[i].dataSeries.color + "\"> "+e.entries[i].dataSeries.name+"</span>: $<strong>"+e.entries[i].dataPoint.y+"</strong>bn<br/>";
+		total = e.entries[i].dataPoint.y + total;
+		str = str.concat(str1);
+	}
+	str2 = "<span style = \"color:DodgerBlue;\"><strong>"+(e.entries[0].dataPoint.x).getFullYear()+"</strong></span><br/>";
+	total = Math.round(total * 100) / 100;
+	str3 = "<span style = \"color:Tomato\">Total:</span><strong> $"+total+"</strong>bn<br/>";
+	return (str2.concat(str)).concat(str3);
+}
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
